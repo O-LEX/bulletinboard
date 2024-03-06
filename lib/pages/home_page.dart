@@ -8,35 +8,25 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Firestore Users'),
-      ),
-      body: StreamBuilder(
-        stream: db.collection('users').snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
-          // ドキュメントからデータを取得してListViewに表示
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot user = snapshot.data!.docs[index];
-              return ListTile(
-                title: Text(user['name']),
-              );
+    return ListView(
+      children: [
+        ListTile(
+          title: Text('Hello, world!'),
+          subtitle: Text('Welcome to the Bulletin Board!'),
+        ),
+        Container(
+          height: 20,
+          child: ElevatedButton(
+            onPressed: () {
+              db.collection('messages').add({
+                'text': 'Hello, world!',
+                'timestamp': DateTime.now(),
+              });
             },
-          );
-        },
-      ),
+            child: Text('Post a message'),
+          ),
+        ),
+      ],
     );
   }
 }
