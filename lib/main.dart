@@ -1,7 +1,9 @@
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
+import 'pages/login_page.dart';
 import 'pages/messages_page.dart';
 import 'pages/search_page.dart';
 
@@ -16,6 +18,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,7 +29,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.purple,
       ),
-      home: MainPage(),
+      home: StreamBuilder<User?>(
+        stream: _auth.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator(); // or your own loading widget
+          } else {
+            if (snapshot.hasData) {
+              return MainPage();
+            } else {
+              return LoginPage();
+            }
+          }
+        },
+      ),
     );
   }
 }

@@ -5,7 +5,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
-
+  
   @override
   Widget build(BuildContext context) {
     return ListView(
