@@ -1,28 +1,65 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.all(20),
-          child: TextField(
+    return Navigator(
+      pages: [
+        MaterialPage(
+          key: ValueKey('MainPage'),
+          child: MainPage(),
+        ),
+      ],
+      onPopPage: (route, result) => route.didPop(result),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+          TextField(
             decoration: InputDecoration(
-              labelText: 'Enter your search term',
+              labelText: 'Search',
             ),
           ),
+          ElevatedButton(
+            child: Text('Search'),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SearchResultsPage();
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchResultsPage extends StatelessWidget {
+  SearchResultsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        ListTile(
+          title: Text('Search Results'),
         ),
-        SizedBox(height: 20),
-        Container(
-          height: 200,
-          color: Colors.grey,
-        )
-      ]
+      ],
     );
   }
 }
