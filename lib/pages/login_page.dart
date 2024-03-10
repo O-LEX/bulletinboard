@@ -2,6 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      pages: [
+        MaterialPage(
+          key: ValueKey('MainPage'),
+          child: MainPage(),
+        ),
+      ],
+      onPopPage: (route, result) => route.didPop(result),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -50,9 +67,7 @@ class LoginPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) {
-                      return RegisterPage();
-                    },
+                    builder: (context) => RegisterPage(),
                   ),
                 );
               },
