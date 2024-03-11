@@ -1,5 +1,7 @@
 # bulletinboard
 
-A new Flutter project.
+A new Flutter project using firebase.
 
-Twitter-like bulletinboard app for Internship and individual concern.
+Twitter-like bulletinboard app for internship and individual concern.
+
+
