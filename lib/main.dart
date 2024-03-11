@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +8,8 @@ import 'pages/login_page.dart';
 import 'pages/messages_page.dart';
 import 'pages/post_page.dart';
 import 'pages/search_page.dart';
+import 'package:provider/provider.dart';
+import 'pages/profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +39,15 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator(); // loading widget
           } else {
-            return snapshot.hasData ? AppPage() : AppPage(); // LoginPage()
+            if (snapshot.hasData) {
+              final uid = snapshot.data!.uid;
+              return Provider.value(
+                value: uid,
+                child: AppPage(),
+              );
+            } else {
+              return LoginPage();
+            } // LoginPage()
           }
         },
       ),
@@ -57,7 +68,7 @@ class AppPage extends StatelessWidget {
         ),
       ],
       onPopPage: (route, result) => route.didPop(result),
-    );
+    );     
   }
 }
 
@@ -86,6 +97,10 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Main Page'),
+      ),
+      drawer: Drawer0(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -121,6 +136,47 @@ class MainPageState extends State<MainPage> {
         },
         child: Icon(Icons.add),
       )
+    );
+  }
+}
+
+class Drawer0 extends StatelessWidget {
+  const Drawer0({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the drawer if there isn't enough vertical
+      // space to fit everything.
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text('Drawer Header'),
+          ),
+          ListTile(
+            title: const Text('Item 1'),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+            },
+          ),
+          ListTile(
+            title: const Text('Item 2'),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +54,7 @@ class MainPage extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   );
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Sign in successful!')),
                   );
@@ -78,6 +80,7 @@ class MainPage extends StatelessWidget {
     );
   }
 }
+
 class RegisterPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -113,6 +116,11 @@ class RegisterPage extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   );
+
+                  FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+                    'username': 'sample', // ここにサンプルのユーザー名を設定
+                  });
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Registration successful!')),
                   );
