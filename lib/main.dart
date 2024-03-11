@@ -160,10 +160,15 @@ class MainDrawer extends StatelessWidget {
             child: Text('Drawer Header'),
           ),
           ListTile(
-            title: const Text('Item 1'),
+            title: const Text('Profile'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProfilePage();
+                  }
+                )
+              );
             },
           ),
           ListTile(
