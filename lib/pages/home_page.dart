@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -8,8 +9,9 @@ class HomePage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final value = Provider.of<String>(context); 
     return Center(
-      child: Text('Home Page'),
+      child: Text(value),
     );
   }
 }

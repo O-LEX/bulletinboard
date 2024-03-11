@@ -46,6 +46,7 @@ class MainPage extends StatelessWidget {
                 labelText: 'Password',
               ),
             ),
+            SizedBox(height: 16.0),
             ElevatedButton(
               child: Text('Login'),
               onPressed: () async {
@@ -64,6 +65,7 @@ class MainPage extends StatelessWidget {
                 }
               },
             ),
+            SizedBox(height: 16.0),
             TextButton(
               child: Text('Don\'t have an account? Register'),
               onPressed: () {
@@ -108,6 +110,7 @@ class RegisterPage extends StatelessWidget {
                 labelText: 'Password',
               ),
             ),
+            SizedBox(height: 16.0),
             ElevatedButton(
               child: Text('Register'),
               onPressed: () async {

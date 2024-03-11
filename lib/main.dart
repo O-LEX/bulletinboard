@@ -100,7 +100,7 @@ class MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text('Main Page'),
       ),
-      drawer: Drawer0(),
+      drawer: MainDrawer(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -140,10 +140,8 @@ class MainPageState extends State<MainPage> {
   }
 }
 
-class Drawer0 extends StatelessWidget {
-  const Drawer0({
-    super.key,
-  });
+class MainDrawer extends StatelessWidget {
+  const MainDrawer({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -169,10 +167,10 @@ class Drawer0 extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
+            title: const Text('Sign out'),
+            onTap: () async {
+              final FirebaseAuth _auth = FirebaseAuth.instance;
+              await _auth.signOut();
             },
           ),
         ],

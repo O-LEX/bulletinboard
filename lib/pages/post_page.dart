@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PostPage extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
@@ -30,7 +31,9 @@ class PostPage extends StatelessWidget {
               child: Text('Post'),
               onPressed: () async {
                 CollectionReference posts = FirebaseFirestore.instance.collection('posts');
+                final uid = Provider.of<String>(context, listen: false);
                 await posts.add({
+                  'user': uid,
                   'body': messageController.text,
                   'timestamp': FieldValue.serverTimestamp(),
                 });
