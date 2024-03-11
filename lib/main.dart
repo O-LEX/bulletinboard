@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
 import 'pages/messages_page.dart';
+import 'pages/post_page.dart';
 import 'pages/search_page.dart';
 
 void main() async {
@@ -33,13 +34,9 @@ class MyApp extends StatelessWidget {
         stream: _auth.authStateChanges(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // or your own loading widget
+            return CircularProgressIndicator(); // loading widget
           } else {
-            if (snapshot.hasData) {
-              return MainPage();
-            } else {
-              return LoginPage();
-            }
+            return snapshot.hasData ? MainPage() : MainPage(); // LoginPage()
           }
         },
       ),
@@ -95,6 +92,18 @@ class MainPageState extends State<MainPage> {
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return PostPage();
+              }
+            )
+          );
+        },
+        child: Icon(Icons.add),
+      )
     );
   }
 }
