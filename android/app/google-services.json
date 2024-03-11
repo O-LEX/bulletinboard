@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "153132340770",
+    "project_id": "bulletinboardolex",
+    "storage_bucket": "bulletinboardolex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153132340770:android:e1ca013751c82bfa0fdc7b",
+        "android_client_info": {
+          "package_name": "com.example.bulletinboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfOlMaS719hKR2JmqbjWlnna_cDSTnyR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

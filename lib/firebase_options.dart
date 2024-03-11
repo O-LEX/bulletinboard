@@ -21,15 +21,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
@@ -56,6 +50,23 @@ class DefaultFirebaseOptions {
     projectId: 'bulletinboardolex',
     authDomain: 'bulletinboardolex.firebaseapp.com',
     storageBucket: 'bulletinboardolex.appspot.com',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBfOlMaS719hKR2JmqbjWlnna_cDSTnyR0',
+    appId: '1:153132340770:android:e1ca013751c82bfa0fdc7b',
+    messagingSenderId: '153132340770',
+    projectId: 'bulletinboardolex',
+    storageBucket: 'bulletinboardolex.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBAXISFA8GnhNlbOf-FrF27_pzYMGd5IL4',
+    appId: '1:153132340770:ios:8817b91414ff0c4a0fdc7b',
+    messagingSenderId: '153132340770',
+    projectId: 'bulletinboardolex',
+    storageBucket: 'bulletinboardolex.appspot.com',
+    iosBundleId: 'com.example.bulletinboard',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
