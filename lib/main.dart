@@ -36,10 +36,27 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator(); // loading widget
           } else {
-            return snapshot.hasData ? MainPage() : MainPage(); // LoginPage()
+            return snapshot.hasData ? AppPage() : AppPage(); // LoginPage()
           }
         },
       ),
+    );
+  }
+}
+
+class AppPage extends StatelessWidget {
+  AppPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      pages: [
+        MaterialPage(
+          key: ValueKey('MainPage'),
+          child: MainPage(),
+        ),
+      ],
+      onPopPage: (route, result) => route.didPop(result),
     );
   }
 }

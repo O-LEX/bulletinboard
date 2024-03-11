@@ -1,23 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PostPage extends StatelessWidget {
-  PostPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      pages: [
-        MaterialPage(
-          key: ValueKey('MainPage'),
-          child: MainPage(),
-        ),
-      ],
-      onPopPage: (route, result) => route.didPop(result),
-    );
-  }
-}
-
-class MainPage extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
 
   @override
@@ -28,7 +12,7 @@ class MainPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
         )
       ),
@@ -44,8 +28,13 @@ class MainPage extends StatelessWidget {
             ),
             ElevatedButton(
               child: Text('Post'),
-              onPressed: () {
-              
+              onPressed: () async {
+                CollectionReference posts = FirebaseFirestore.instance.collection('posts');
+                await posts.add({
+                  'body': messageController.text,
+                  'timestamp': FieldValue.serverTimestamp(),
+                });
+                Navigator.pop(context);
               },
             ),
           ],
