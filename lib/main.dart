@@ -145,19 +145,25 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final uid = Provider.of<String>(context, listen: false);
     return Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+          UserAccountsDrawerHeader(
+            accountName: Text(
+             uid,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            child: Text('Drawer Header'),
+            accountEmail: Text(
+              "sample@mail",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            currentAccountPicture: FlutterLogo(),
           ),
           ListTile(
             title: const Text('Profile'),
