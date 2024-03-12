@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PostPage extends StatelessWidget {
+  PostPage({super.key, required this.uid});
+
+  final uid;
+
   final TextEditingController messageController = TextEditingController();
 
   @override
@@ -31,7 +35,6 @@ class PostPage extends StatelessWidget {
               child: Text('Post'),
               onPressed: () async {
                 CollectionReference posts = FirebaseFirestore.instance.collection('posts');
-                final uid = Provider.of<String>(context, listen: false);
                 await posts.add({
                   'user': uid,
                   'body': messageController.text,

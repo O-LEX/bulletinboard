@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilePage extends StatelessWidget {
+  ProfilePage({super.key, required this.uid});
+  
+  final uid;
+
   final TextEditingController _usernameController = TextEditingController();
 
   @override
@@ -21,9 +26,11 @@ class ProfilePage extends StatelessWidget {
             ),
             ElevatedButton(
               child: Text('Save'),
-              onPressed: () {
-                // Save the username
-                print('Username: ${_usernameController.text}');
+              onPressed: () async {
+                await FirebaseFirestore.instance.collection('users').doc(uid).update({
+                  'username': _usernameController.text,
+                });
+                Navigator.pop(context);
               },
             ),
           ],

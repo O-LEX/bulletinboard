@@ -131,7 +131,7 @@ class MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text('Main Page'),
       ),
-      drawer: isLoading ?  CircularProgressIndicator() : MainDrawer(username: username),
+      drawer: isLoading ?  CircularProgressIndicator() : MainDrawer(uid: widget.uid, username: username),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -160,7 +160,7 @@ class MainPageState extends State<MainPage> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return PostPage();
+                return PostPage(uid: widget.uid);
               }
             )
           );
@@ -172,8 +172,9 @@ class MainPageState extends State<MainPage> {
 }
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key, required this.username});
+  const MainDrawer({super.key, required this.uid, required this.username});
 
+  final uid;
   final username;
 
   @override
@@ -203,7 +204,7 @@ class MainDrawer extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return ProfilePage();
+                    return ProfilePage(uid: uid);
                   }
                 )
               );
