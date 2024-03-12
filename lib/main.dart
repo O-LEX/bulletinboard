@@ -8,7 +8,6 @@ import 'pages/login_page.dart';
 import 'pages/messages_page.dart';
 import 'pages/post_page.dart';
 import 'pages/search_page.dart';
-import 'package:provider/provider.dart';
 import 'pages/profile_page.dart';
 
 void main() async {
@@ -41,10 +40,7 @@ class MyApp extends StatelessWidget {
           } else {
             if (snapshot.hasData) {
               final uid = snapshot.data!.uid;
-              return Provider.value(
-                value: uid,
-                child: AppPage(),
-              );
+              return AppPage(uid: uid);
             } else {
               return LoginPage();
             } // LoginPage()
@@ -56,7 +52,9 @@ class MyApp extends StatelessWidget {
 }
 
 class AppPage extends StatelessWidget {
-  AppPage({super.key});
+  AppPage({super.key, required this.uid});
+
+  final uid;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +62,7 @@ class AppPage extends StatelessWidget {
       pages: [
         MaterialPage(
           key: ValueKey('MainPage'),
-          child: MainPage(),
+          child: MainPage(uid: uid),
         ),
       ],
       onPopPage: (route, result) => route.didPop(result),
@@ -73,13 +71,46 @@ class AppPage extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({super.key});
+  MainPage({super.key, required this.uid});
+  
+  final uid;
 
   @override
   MainPageState createState() => MainPageState();
 }
 
 class MainPageState extends State<MainPage> {
+  late String username;
+  bool isLoading = true; // Flag to indicate data loading state
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    try {
+      final DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+
+      if (doc.exists) {
+        setState(() {
+          username = doc.get('username');
+          isLoading = false;
+        });
+      } else {
+        // Handle the case where the user document doesn't exist
+        print('User document does not exist for uid: ${widget.uid}');
+      }
+    } catch (error) {
+      // Handle errors during data fetching
+      print('Error fetching user data: $error');
+    }
+  }
+
   int _selectedIndex = 0;
 
   static List<Widget> _pages = [
@@ -100,7 +131,7 @@ class MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text('Main Page'),
       ),
-      drawer: MainDrawer(),
+      drawer: isLoading ?  CircularProgressIndicator() : MainDrawer(username: username),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -141,18 +172,19 @@ class MainPageState extends State<MainPage> {
 }
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key,});
+  const MainDrawer({super.key, required this.username});
+
+  final username;
 
   @override
   Widget build(BuildContext context) {
-    final uid = Provider.of<String>(context, listen: false);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-             uid,
+             username,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
